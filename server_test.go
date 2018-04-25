@@ -19,28 +19,30 @@ func BenchmarkUdp(b *testing.B) {
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		/*
-					conn, err := net.Dial("udp", "127.0.0.1:8080")
-					if err != nil {
-						log.Fatalln(err)
-						os.Exit(1)
-					}
-			    defer conn.Close()
-		*/
-		_, err = conn.Write([]byte("01234567890"))
+		_, err = conn.Write([]byte("0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"))
 		if err != nil {
 			log.Fatalln(err)
 			os.Exit(1)
 		}
-		recvBuf := make([]byte, 1024)
-		n, err := conn.Read(recvBuf)
-		if err != nil {
-			log.Fatalln(err)
-			os.Exit(1)
-		}
+		// recvBuf := make([]byte, 1024)
+		// n, err := conn.Read(recvBuf)
+		// if err != nil {
+		// 	log.Fatalln(err)
+		// 	os.Exit(1)
+		// }
 
-		log.Printf("Received data: %s", string(recvBuf[:n]))
-		//conn.Close()
+		// log.Printf("Received data: %s", string(recvBuf[:n]))
 
 	}
 }
+
+// 	M = 80000000
+// 10byte -> 20000	     74795 ns/op	    1104 B/op	       5 allocs/op
+
+// 	M = 80000000
+// 100byte -> 20000	     71912 ns/op	    1392 B/op	       5 allocs/op
+
+// 	M = 80000000
+//  send only
+// 100byte -> 300000	      4392 ns/op	     112 B/op	       1 allocs/op
+// 100byte / 4 microsec -> (100 / 1000000 [Mbyte])  /  (4 * 1000000 [s]) = 25[Mbyte/s] = 200Mbit/s

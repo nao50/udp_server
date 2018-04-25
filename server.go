@@ -14,6 +14,11 @@ const (
 )
 
 func main() {
+	sendUDPAddr := &net.UDPAddr{
+		IP:   net.ParseIP("127.0.0.1"),
+		Port: 2121,
+	}
+
 	udpAddr := &net.UDPAddr{
 		IP:   net.ParseIP("127.0.0.1"),
 		Port: 2152,
@@ -49,7 +54,8 @@ func main() {
 		go func() {
 			log.Println("size: ", n)
 			log.Printf("Reciving data: %s from %s", string(buf[:n]), addr.String())
-			updLn.WriteTo(buf[:n], addr)
+			updLn.WriteTo(buf[:n], sendUDPAddr)
+			// updLn.WriteTo(buf[:n], addr)
 		}()
 		log.Println("End test. ", time.Since(start))
 	}
