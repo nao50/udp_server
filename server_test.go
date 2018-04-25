@@ -9,7 +9,7 @@ import (
 
 func BenchmarkUdp(b *testing.B) {
 	// セッション使い回し
-	conn, err := net.Dial("udp", "127.0.0.1:8080")
+	conn, err := net.Dial("udp", "127.0.0.1:2152")
 	if err != nil {
 		log.Fatalln(err)
 		os.Exit(1)
@@ -27,7 +27,7 @@ func BenchmarkUdp(b *testing.B) {
 					}
 			    defer conn.Close()
 		*/
-		_, err = conn.Write([]byte("0123456789"))
+		_, err = conn.Write([]byte("01234567890"))
 		if err != nil {
 			log.Fatalln(err)
 			os.Exit(1)

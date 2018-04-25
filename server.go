@@ -10,13 +10,13 @@ import (
 )
 
 const (
-	M = 8000 // 1秒あたりの処理制限
+	M = 80000000 // 1秒あたりの処理制限
 )
 
 func main() {
 	udpAddr := &net.UDPAddr{
 		IP:   net.ParseIP("127.0.0.1"),
-		Port: 8080,
+		Port: 2152,
 	}
 	updLn, err := net.ListenUDP("udp", udpAddr)
 
@@ -47,7 +47,7 @@ func main() {
 		}
 
 		go func() {
-			log.Println(n)
+			log.Println("size: ", n)
 			log.Printf("Reciving data: %s from %s", string(buf[:n]), addr.String())
 			updLn.WriteTo(buf[:n], addr)
 		}()
