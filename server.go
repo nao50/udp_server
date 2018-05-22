@@ -1,23 +1,18 @@
 package main
 
 import (
-	"context"
 	"log"
 	"net"
 	"time"
 
-	"golang.org/x/time/rate"
-)
-
-const (
-	M = 80000000 // 1秒あたりの処理制限
+	"github.com/naoyamaguchi/udp_server/tbf"
 )
 
 func main() {
-	sendUDPAddr := &net.UDPAddr{
-		IP:   net.ParseIP("127.0.0.1"),
-		Port: 2121,
-	}
+	// sendUDPAddr := &net.UDPAddr{
+	// 	IP:   net.ParseIP("127.0.0.1"),
+	// 	Port: 2121,
+	// }
 
 	udpAddr := &net.UDPAddr{
 		IP:   net.ParseIP("127.0.0.1"),
@@ -30,9 +25,8 @@ func main() {
 	}
 
 	// Tocken Bucket Filter
-	ctx := context.Background()
-	n := rate.Every(time.Second / M)
-	l := rate.NewLimiter(n, M) //必ずしも上限Mである必要はない。ここの上限値がバースト値となる。
+	// // TODO(nao): 接続ごとに値を変えたい
+	ctx, limit := tbf.InitTokenBucket()
 
 	// Buffer
 	buf := make([]byte, 1024)
@@ -46,16 +40,16 @@ func main() {
 
 		start := time.Now()
 
-		// TBF n[byte]分のTockenをマイナス。bpsはbit/secであることに注意が必要。
-		if err := l.WaitN(ctx, n); err != nil {
+		err = tbf.TokenBucketFilter(ctx, n, limit)
+		if err != nil {
 			log.Fatalln(err)
 		}
 
 		go func() {
 			log.Println("size: ", n)
 			log.Printf("Reciving data: %s from %s", string(buf[:n]), addr.String())
-			updLn.WriteTo(buf[:n], sendUDPAddr)
-			// updLn.WriteTo(buf[:n], addr)
+			// updLn.WriteTo(buf[:n], sendUDPAddr)
+			updLn.WriteTo(buf[:n], addr)
 		}()
 		log.Println("End test. ", time.Since(start))
 	}

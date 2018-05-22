@@ -24,14 +24,15 @@ func BenchmarkUdp(b *testing.B) {
 			log.Fatalln(err)
 			os.Exit(1)
 		}
-		// recvBuf := make([]byte, 1024)
-		// n, err := conn.Read(recvBuf)
-		// if err != nil {
-		// 	log.Fatalln(err)
-		// 	os.Exit(1)
-		// }
 
-		// log.Printf("Received data: %s", string(recvBuf[:n]))
+		recvBuf := make([]byte, 1024)
+		n, err := conn.Read(recvBuf)
+		if err != nil {
+			log.Fatalln(err)
+			os.Exit(1)
+		}
+
+		log.Printf("Received data: %s", string(recvBuf[:n]))
 
 	}
 }
