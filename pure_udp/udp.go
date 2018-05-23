@@ -7,21 +7,25 @@ import (
 )
 
 func main() {
-	fmt.Println("\n===== net.Listen() =====")
-	ln, err := net.Listen("udp", ":2152")
+	udpAddr := &net.UDPAddr{
+		IP:   net.ParseIP("127.0.0.1"),
+		Port: 2152,
+	}
+	fmt.Println("\n===== net.ListenUDP() =====")
+	updConn, err := net.ListenUDP("udp", udpAddr)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
 
+	buf := make([]byte, 1550)
 	for {
-		// https://golang.org/pkg/net/#Listen
-		// func Listen is not support udp??
-		fmt.Println("\n===== ln.Accept() =====")
-		conn, err := ln.Addr
-		// if err != nil {
-		// 	log.Print(err)
-		// 	continue
-		// }
+		fmt.Println("\n===== updConn.ReadFromUDP() =====")
+		n, raddr, err := updConn.ReadFromUDP(buf)
 
+		fmt.Println("recieved size: ", n)
+		fmt.Println("remote address: ", raddr)
+		if err != nil {
+			log.Fatalln(err)
+		}
 	}
 }

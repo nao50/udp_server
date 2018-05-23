@@ -5,7 +5,8 @@ import (
 	"net"
 	"time"
 
-	"github.com/naoyamaguchi/udp_server/tbf"
+	// "github.com/naoyamaguchi/udp_server/tbf"
+	"./tbf"
 )
 
 func main() {
