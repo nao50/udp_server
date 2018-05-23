@@ -52,6 +52,14 @@ write(1, "recieved size:  10\n", 19recieved size:  10
 )    = 19
 write(1, "remote address:  127.0.0.1:41343"..., 33remote address:  127.0.0.1:41343
 ) = 33
+write(1, "\n===== updConn.ReadFromUDP() ==="..., 35
+===== updConn.ReadFromUDP() =====
+) = 35
+recvfrom(3, 0xc42004f8ba, 1550, 0, 0xc42004f5d8, [112]) = -1 EAGAIN (Resource temporarily unavailable)
+epoll_pwait(4, [], 128, 0, NULL, 140097451138816) = 0
+epoll_pwait(4, recvfrom(3, 0xc42004f8ba, 1550, 0, 0xc42004f5d8, [112]) = -1 EAGAIN (Resource temporarily unavailable)
+epoll_pwait(4, [{EPOLLOUT, {u32=4207877888, u64=140097451138816}}], 128, 0, NULL, 140097451138816) = 1
+epoll_pwait(4,
 
 ```
 
