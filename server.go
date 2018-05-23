@@ -20,7 +20,6 @@ func main() {
 		Port: 2152,
 	}
 	updLn, err := net.ListenUDP("udp", udpAddr)
-
 	if err != nil {
 		log.Fatalln(err)
 	}
