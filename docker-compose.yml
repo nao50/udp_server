@@ -1,0 +1,58 @@
+version: "3"
+
+services:
+  leftbox:
+    build: ./leftbox
+    tty: true
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    networks:
+      leftnetwork:
+        ipv4_address: 10.0.10.1
+
+  udpserver:
+    build: ./udpserver
+    tty: true
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    networks:
+      leftnetwork:
+        ipv4_address: 10.0.10.2
+      rightnetwork:
+        ipv4_address: 10.0.11.1
+
+  rightbox:
+    build: ./rightbox
+    tty: true
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    networks:
+      rightnetwork:
+        ipv4_address: 10.0.11.2
+
+networks:
+  leftnetwork:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.10.0/24
+  rightnetwork:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.11.0/24
