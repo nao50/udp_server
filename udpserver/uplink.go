@@ -12,7 +12,7 @@ func uplink() {
 	ctx, limit := tbf.InitTokenBucket()
 	///////////////////////////////////////////////////////////////	
 	sendUdpAddr := &net.UDPAddr{
-		IP:   net.ParseIP("127.0.0.1"),
+		IP:   net.ParseIP("10.0.11.10"),
 		Port: 2153,
 	}
 	sendUdpConn, err := net.ListenUDP("udp", sendUdpAddr)

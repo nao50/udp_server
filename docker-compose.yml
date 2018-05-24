@@ -13,7 +13,7 @@ services:
       - apparmor:unconfined
     networks:
       leftnetwork:
-        ipv4_address: 10.0.10.1
+        ipv4_address: 10.0.10.10
 
   udpserver:
     build: ./udpserver
@@ -27,9 +27,9 @@ services:
       - apparmor:unconfined
     networks:
       leftnetwork:
-        ipv4_address: 10.0.10.2
+        ipv4_address: 10.0.10.20
       rightnetwork:
-        ipv4_address: 10.0.11.1
+        ipv4_address: 10.0.11.10
 
   rightbox:
     build: ./rightbox
@@ -43,7 +43,7 @@ services:
       - apparmor:unconfined
     networks:
       rightnetwork:
-        ipv4_address: 10.0.11.2
+        ipv4_address: 10.0.11.20
 
 networks:
   leftnetwork:
